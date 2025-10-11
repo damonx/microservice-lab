@@ -30,5 +30,6 @@ A practical example of how to build an **idempotent REST API** using:
 ## Running the App
 
 ```bash
+cd damonx-idempotency
 ./gradlew bootRun
 ```
