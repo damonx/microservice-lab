@@ -8,7 +8,7 @@ A practical example of how to build an **idempotent REST API** using:
 
 ---
 
-## 🚀 Features
+## Features
 
 | Pattern            | Implementation Approach                                  |
 |--------------------|-----------------------------------------------------------|
@@ -18,7 +18,7 @@ A practical example of how to build an **idempotent REST API** using:
 
 ---
 
-## 📦 Tech Stack
+## Tech Stack
 
 - **Java 21**
 - **Spring Boot 3**
@@ -27,7 +27,7 @@ A practical example of how to build an **idempotent REST API** using:
 
 ---
 
-## ▶️ Running the App
+## Running the App
 
 ```bash
 ./gradlew bootRun
