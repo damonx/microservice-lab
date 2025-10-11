@@ -12,4 +12,25 @@ import org.springframework.boot.test.context.SpringBootTest;
 @AutoConfigureTestEntityManager
 public class UserControllerIntegrationTest extends BaseIntegrationTest
 {
+//    User newUser = new User(null, "Charlie", "charlie@example.com", Instant.now());
+//
+//    // Make first request
+//    webClient.post()
+//        .uri("/users")
+//        .header("Idempotency-Key", "upsert-user-001")
+//        .bodyValue(newUser)
+//        .exchange()
+//        .expectStatus().isEqualTo(HttpStatus.OK);
+//
+//    // Make second request with same Idempotency-Key
+//    webClient.post()
+//        .uri("/users")
+//        .header("Idempotency-Key", "upsert-user-001")
+//        .bodyValue(newUser)
+//        .exchange()
+//        .expectStatus().isEqualTo(HttpStatus.OK);
+//
+//    // ✅ Now assert DB has only ONE record with that email
+//    List<User> found = userRepository.findByEmail("charlie@example.com");
+//    assertThat(found).hasSize(1);
 }
