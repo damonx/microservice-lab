@@ -23,13 +23,12 @@ A practical example of how to build an **idempotent REST API** using:
 - **Java 21**
 - **Spring Boot 3**
 - **Gradle (Kotlin DSL)**
-- **H2 In-Memory Database**
+- **PostgreSQL Database + TestContainer**
 
 ---
 
 ## Running the App
 
 ```bash
-cd damonx-idempotency
 ./gradlew bootRun
 ```
