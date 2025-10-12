@@ -1,3 +1,40 @@
+# Microservice Lab
+
+A personal playground for exploring **microservice architecture**, **DevOps patterns**, and **distributed resilience techniques**.
+
+This repository serves as an evolving collection of experiments, prototypes, and sample implementations showcasing concepts such as:
+
+---
+
+## 🚀 What You'll Find
+
+| Topic | Examples / Experiments |
+|--------|------------------------|
+| ✅ Service-to-Service Communication | REST, gRPC, async messaging |
+| ✅ Resilience Patterns | Circuit Breaker, Retry, Rate Limiter, Bulkhead (e.g. with Resilience4j) |
+| ✅ Idempotency & Exactly-Once Processing | Idempotency Keys, Upsert, Conditional Writes |
+| ✅ CQRS & Event-Driven Design | Command / Query Segregation demos |
+| ✅ Infrastructure & Containers | Testcontainers, Docker Compose setups |
+| ✅ API Gateway / Integration Layer | (Future: MuleSoft-style orchestration in Spring Boot) |
+
+---
+
+## 🛠️ Tech Stack
+
+| Category | Tools / Frameworks |
+|----------|--------------------|
+| Language | Java 21, Kotlin (planned) |
+| Framework | Spring Boot (latest) |
+| Build Tool | Gradle (Kotlin DSL) |
+| Databases | PostgreSQL, Redis, Testcontainers |
+| Messaging (planned) | Kafka / RabbitMQ |
+| DevOps | Docker, CI/CD-friendly setup |
+
+---
+
+## 📂 Repository Structure (WIP)
+
+Each concept will live in its own module/folder:
 # Microservice FAQs
 
 I believe choosing between microservices and a monolith is not merely a technical decision, but a strategic one based on **business context, team structure, and engineering stage**. My decision framework revolves around several key factors:
