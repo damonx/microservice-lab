@@ -1,4 +1,4 @@
-# Microservice FAQs.
+# Microservice FAQs
 
 I believe choosing between microservices and a monolith is not merely a technical decision, but a strategic one based on **business context, team structure, and engineering stage**. My decision framework revolves around several key factors:
 
