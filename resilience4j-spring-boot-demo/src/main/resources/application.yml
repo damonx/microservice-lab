@@ -1,0 +1,44 @@
+server:
+  port: 8080
+
+spring:
+  cache:
+    type: caffeine
+
+resilience4j:
+  circuitbreaker:
+    configs:
+      default:
+        registerHealthIndicator: true
+        slidingWindowType: COUNT_BASED
+        slidingWindowSize: 10
+        minimumNumberOfCalls: 5
+        failureRateThreshold: 50
+        waitDurationInOpenState: 10s
+    instances:
+      demoServiceCB:
+        baseConfig: default
+
+  retry:
+    instances:
+      demoServiceRetry:
+        maxAttempts: 3
+        waitDuration: 500ms
+
+  ratelimiter:
+    instances:
+      demoServiceRL:
+        limitForPeriod: 5
+        limitRefreshPeriod: 1s
+        timeoutDuration: 0
+
+  bulkhead:
+    instances:
+      demoServiceBH:
+        maxConcurrentCalls: 5
+        maxWaitDuration: 0
+
+  timelimiter:
+    instances:
+      demoServiceTL:
+        timeoutDuration: 2s
