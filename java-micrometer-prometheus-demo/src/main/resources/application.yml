@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: demo-micrometer
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus
+  endpoint:
+    prometheus:
+      enabled: true
+server:
+  port: 8080

@@ -1,0 +1,55 @@
+{
+  "annotations": {"list": []},
+  "editable": true,
+  "gnetId": null,
+  "graphTooltip": 0,
+  "id": null,
+  "links": [],
+  "panels": [
+    {
+      "datasource": "Prometheus",
+      "fieldConfig": {"defaults": {}, "overrides": []},
+      "gridPos": {"h": 8, "w": 24, "x": 0, "y": 0},
+      "id": 2,
+      "options": {},
+      "targets": [
+        {"expr": "rate(demo_requests_total[1m])", "legendFormat": "requests/sec", "refId": "A"}
+      ],
+      "title": "Request Rate",
+      "type": "timeseries"
+    },
+    {
+      "datasource": "Prometheus",
+      "fieldConfig": {"defaults": {}, "overrides": []},
+      "gridPos": {"h": 8, "w": 24, "x": 0, "y": 8},
+      "id": 3,
+      "options": {},
+      "targets": [
+        {"expr": "histogram_quantile(0.95, rate(demo_hello_latency_bucket[5m]))", "legendFormat": "p95 latency", "refId": "A"}
+      ],
+      "title": "p95 Latency (hello)",
+      "type": "timeseries"
+    },
+    {
+      "datasource": "Prometheus",
+      "fieldConfig": {"defaults": {}, "overrides": []},
+      "gridPos": {"h": 8, "w": 24, "x": 0, "y": 16},
+      "id": 4,
+      "options": {},
+      "targets": [
+        {"expr": "sum(rate(demo_requests_total[1m])) - sum(rate(demo_requests_total[1m] > 0))", "legendFormat": "errors/sec", "refId": "A"}
+      ],
+      "title": "Error Rate",
+      "type": "timeseries"
+    }
+  ],
+  "schemaVersion": 30,
+  "style": "dark",
+  "tags": [],
+  "templating": {"list": []},
+  "time": {"from": "now-6h", "to": "now"},
+  "timepicker": {},
+  "timezone": "browser",
+  "title": "Demo App Metrics",
+  "uid": "demo-app-metrics"
+}
