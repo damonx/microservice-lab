@@ -6,7 +6,7 @@ This repository serves as an evolving collection of experiments, prototypes, and
 
 ---
 
-## 🚀 What You'll Find
+## What You'll Find
 
 | Topic | Examples / Experiments |
 |--------|------------------------|
@@ -19,7 +19,7 @@ This repository serves as an evolving collection of experiments, prototypes, and
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 | Category | Tools / Frameworks |
 |----------|--------------------|
@@ -32,7 +32,7 @@ This repository serves as an evolving collection of experiments, prototypes, and
 
 ---
 
-## 📂 Repository Structure (WIP)
+## Repository Structure (WIP)
 
 Each concept will live in its own module/folder:
 # Microservice FAQs
