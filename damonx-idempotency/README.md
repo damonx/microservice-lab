@@ -33,7 +33,6 @@ A practical example of how to build an **idempotent REST API** using:
 ./gradlew bootRun
 ```
 
-```
 ---
 # Designing an Idempotent API
 
