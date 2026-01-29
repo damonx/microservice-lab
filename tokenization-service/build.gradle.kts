@@ -52,9 +52,9 @@ tasks.test {
 
     testLogging {
         events("passed", "skipped", "failed")
-        showStandardStreams = true
-        showCauses = true
-        showStackTraces = true
+        showStandardStreams = false
+        showCauses = false
+        showStackTraces = false
         exceptionFormat = org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL
     }
 
