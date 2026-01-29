@@ -12,7 +12,19 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * Cache configurations.
+ * Cache configuration for the Tokenization service.
+ *
+ * <p>This configuration defines and registers a Caffeine-backed cache used for
+ * token-to-account-number resolution. The cache is primarily used by the
+ * {@code /detokenize} flow to avoid repeated database lookups for frequently
+ * accessed tokens.</p>
+ *
+ * <p>The cache characteristics (initial capacity, maximum size and TTL) are
+ * externalised via {@link TokenCacheProperties} to allow tuning without code
+ * changes.</p>
+ *
+ * <p>Eviction and removal events are logged for operational visibility, and
+ * cache statistics are recorded to support monitoring and performance analysis.</p>
  */
 @Configuration
 public class CacheConfiguration
@@ -20,9 +32,20 @@ public class CacheConfiguration
     private static final Logger logger = LogManager.getLogger(CacheConfiguration.class);
 
     /**
-     * Cache manager bean.
-     * @param tokenCacheProperties
-     * @return the instance of {@link CacheManager}.
+     * Creates and configures the application's {@link CacheManager}.
+     *
+     * <p>This cache manager registers a custom Caffeine cache named
+     * {@code "tokenToAccount"}, which stores mappings between generated tokens
+     * and their corresponding account numbers.</p>
+     *
+     * <p>The cache uses a time-based eviction policy (expire-after-write),
+     * size limits, and a system scheduler to ensure timely eviction of entries.
+     * Cache eviction and removal events are logged to assist with debugging and
+     * operational monitoring.</p>
+     *
+     * @param tokenCacheProperties configuration properties defining cache size,
+     *                             TTL and initial capacity
+     * @return a fully configured {@link CacheManager} instance
      */
     @Bean
     public CacheManager cacheManager(final TokenCacheProperties tokenCacheProperties) {

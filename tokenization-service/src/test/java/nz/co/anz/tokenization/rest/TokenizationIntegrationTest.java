@@ -29,10 +29,7 @@ import java.util.stream.IntStream;
 @DisplayName("Tokenization Integration Tests")
 @TestPropertySource(locations = {"/integration-test.properties"})
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@Sql(
-    scripts = "classpath:sql/clear-test.sql",
-    executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD
-)
+@Sql(scripts = "classpath:sql/clear-test.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
 public class TokenizationIntegrationTest {
     // Regex for exactly 32 alphanumeric characters
     private static final String TOKEN_REGEX = "^[a-zA-Z0-9]{32}$";
@@ -69,16 +66,37 @@ public class TokenizationIntegrationTest {
             .toList();
 
         // WHEN
-        final EntityExchangeResult<ProblemDetail> result = webClient.post()
+        final EntityExchangeResult<String> result = webClient.post()
             .uri("/tokenize")
             .bodyValue(accountNumbers)
             .exchange()
             .expectStatus().isBadRequest()
-            .expectBody(ProblemDetail.class)
+            .expectBody(String.class)
             .returnResult();
 
         // THEN
-        assertThat(result.getResponseBody().getDetail()).isEqualTo("Request validation failed");
+        assertThat(result.getResponseBody()).contains("Maximum 50 account numbers per request");
+        assertThat(tokenRepository.findAll()).isEmpty();
+    }
+
+    @Test
+    @DisplayName("Tokenize fails when account number format is invalid")
+    void tokenizeFailsWhenAccountFormatInvalid() {
+        // GIVEN
+        final List<String> invalidAccountNumbers = List.of("invalid-account");
+
+        // WHEN
+        final EntityExchangeResult<String> result = webClient.post()
+            .uri("/tokenize")
+            .bodyValue(invalidAccountNumbers)
+            .exchange()
+            .expectStatus().isBadRequest()
+            .expectBody(String.class)
+            .returnResult();
+
+        // THEN
+        assertThat(result.getResponseBody()).contains("Wrong account number format");
+        // AND: no data persisted
         assertThat(tokenRepository.findAll()).isEmpty();
     }
 
@@ -91,30 +109,29 @@ public class TokenizationIntegrationTest {
         final List<String> request = List.of("1234 5678 9012 3456");
 
         // WHEN
-        final List<String> tokensInResponse = webClient.post()
+        final EntityExchangeResult<List<String>>  tokensInResponse = webClient.post()
             .uri("/tokenize")
             .bodyValue(request)
             .exchange()
             .expectStatus().isOk()
             .expectBody(new ParameterizedTypeReference<List<String>>() {})
-            .returnResult()
-            .getResponseBody();
+            .returnResult();
 
         // THEN
-        assertThat(tokensInResponse).hasSize(1)
+        final List<String> tokens = tokensInResponse.getResponseBody();
+        assertThat(tokens).hasSize(1)
             .allSatisfy(token -> assertThat(token)
                 .as("Token %s does not match the expected 32-char alphanumeric format", token)
                 .matches(TOKEN_REGEX));
         // Verifies that correct account to token mapping has been persisted.
         final Optional<TokenEntity> entity = tokenRepository.findByAccountNumber("1234 5678 9012 3456");
         assertThat(entity).isPresent();
-        assertThat(entity.get().getToken()).isEqualTo(tokensInResponse.getFirst());
+        assertThat(entity.get().getToken()).isEqualTo(tokens.getFirst());
     }
 
     @Test
     @DisplayName("Tokenize returns existing token when account number already tokenized")
     @Sql({ "classpath:sql/existing-token-mapping.sql"})
-    @Transactional(readOnly = true)
     void tokenizeReturnsExistingToken()
     {
         // GIVEN
@@ -122,17 +139,16 @@ public class TokenizationIntegrationTest {
         final String existingToken = "uS8vN3dph7ttuKMHbuk4Hsbbln1aAvLY";
 
         // WHEN
-        final List<String> tokensInResponse = webClient.post()
+        final EntityExchangeResult<List<String>> tokensInResponse = webClient.post()
             .uri("/tokenize")
             .bodyValue(request)
             .exchange()
             .expectStatus().isOk()
             .expectBody(new ParameterizedTypeReference<List<String>>() {})
-            .returnResult()
-            .getResponseBody();
+            .returnResult();
 
         // THEN
-        assertThat(tokensInResponse).containsExactly(existingToken);
+        assertThat(tokensInResponse.getResponseBody()).containsExactly(existingToken);
         // AND: Verify the database record has NOT been touched/modified
         // We fetch the record and compare it against our expected values
         TokenEntity existingDbRecord = tokenRepository.findById(existingToken).orElseThrow();
