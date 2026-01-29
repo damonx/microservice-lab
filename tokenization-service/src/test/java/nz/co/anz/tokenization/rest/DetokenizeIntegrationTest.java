@@ -164,6 +164,26 @@ class DetokenizeIntegrationTest {
     }
 
     @Test
+    @DisplayName("Detokenize fails when token does not exist")
+    @Sql({ "classpath:sql/existing-token-mapping.sql"})
+    void detokenizeFailsWhenTokenNotFound() {
+        // GIVEN
+        final List<String> request = List.of("ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ");
+
+        // WHEN
+        final EntityExchangeResult<String> result = webClient.post()
+            .uri("/detokenize")
+            .bodyValue(request)
+            .exchange()
+            .expectStatus().isNotFound()
+            .expectBody(String.class)
+            .returnResult();
+
+        // THEN
+        assertThat(result.getResponseBody()).contains("Token not found: ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ");
+    }
+
+    @Test
     @DisplayName("Detokenize resolves multiple tokens correctly")
     @Sql({ "classpath:sql/existing-two-token-mappings.sql"})
     void detokenizeResolvesMultipleTokens() {
@@ -192,25 +212,5 @@ class DetokenizeIntegrationTest {
         assertThat(cache.get("BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB"))
             .extracting(Cache.ValueWrapper::get)
             .isEqualTo("5555 6666 7777 8888");
-    }
-
-    @Test
-    @DisplayName("Detokenize fails when token does not exist")
-    @Sql({ "classpath:sql/existing-token-mapping.sql"})
-    void detokenizeFailsWhenTokenNotFound() {
-        // GIVEN
-        final List<String> request = List.of("ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ");
-
-        // WHEN
-        final EntityExchangeResult<String> result = webClient.post()
-            .uri("/detokenize")
-            .bodyValue(request)
-            .exchange()
-            .expectStatus().isNotFound()
-            .expectBody(String.class)
-            .returnResult();
-
-        // THEN
-        assertThat(result.getResponseBody()).contains("Token not found: ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ");
     }
 }
