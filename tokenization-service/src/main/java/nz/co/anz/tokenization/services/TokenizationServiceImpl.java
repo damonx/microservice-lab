@@ -4,7 +4,6 @@ package nz.co.anz.tokenization.services;
 import nz.co.anz.tokenization.data.TokenEntity;
 import nz.co.anz.tokenization.data.TokenRepository;
 import nz.co.anz.tokenization.exception.GlobalExceptionHandler;
-import nz.co.anz.tokenization.exception.TokenNotFoundException;
 import nz.co.anz.tokenization.utils.AccountMasker;
 import nz.co.anz.tokenization.utils.TokenGenerator;
 import org.apache.logging.log4j.LogManager;

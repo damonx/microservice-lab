@@ -11,11 +11,19 @@ import org.springframework.cache.caffeine.CaffeineCacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ * Cache configurations.
+ */
 @Configuration
 public class CacheConfiguration
 {
     private static final Logger logger = LogManager.getLogger(CacheConfiguration.class);
 
+    /**
+     * Cache manager bean.
+     * @param tokenCacheProperties
+     * @return the instance of {@link CacheManager}.
+     */
     @Bean
     public CacheManager cacheManager(final TokenCacheProperties tokenCacheProperties) {
         final CaffeineCacheManager cacheManager = new CaffeineCacheManager();
