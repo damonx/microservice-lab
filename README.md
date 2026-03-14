@@ -2,7 +2,7 @@
 
 A personal playground for exploring **microservice architecture**, **DevOps patterns**, and **distributed resilience techniques**.
 
-This repository serves as an evolving collection of experiments, prototypes, and sample implementations showcasing concepts such as:
+This repository serves as an evolving collection of experiments, prototypes, and sample implementations showcasing concepts.
 
 ---
 
